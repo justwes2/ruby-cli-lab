@@ -6,9 +6,7 @@ y_axis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 @ocean = x_axis.product(y_axis).each do |combo|
 end
 # p @ocean
-@viewscreen = @ocean.each_slice(10) { |x|
-  puts  x.join(' ')
-}
+@viewscreen = @ocean.each_slice(10) { |x| puts  x.join(' ')}
 #generates radar field, or answer key
 @radar =Array.new(100, false)
 # p @radar
@@ -19,7 +17,7 @@ end
 def add_ship
   v_or_h=rand(2)
   @random = rand(100)
-  p @random
+  # p @random
   if v_or_h == 1
     if @random + 5 <= 100
       pos = @random
@@ -48,36 +46,39 @@ end
 # p @radar
 #
 # #checks to see if all battleship elements have been hit
-# def damage_report
-#   counts =@ocean.each_with_object(Hash.new(0)) { |status, counts| counts{status}}
-#   if counts[['Hit!']] >= 5
-#     puts "You sunk my battleship!"
-#   end
-#   #move higher
-# end
-# # allow player to call torpedos
-# def torpedo
-#   puts "Where do you want to attack?"
-#   target = gets.chomp
-#   p target
-#   coord = target.split('')
-#   p coord
-#   sonar = @ocean.index(coord)
-#   if @radar[sonar] == true
-#     puts "Hit!"
-#     @ocean[sonar].clear
-#     @ocean[sonar] << "Hit!"
-#   else
-#     puts "Miss!"
-#     @ocean[sonar].clear
-#     @ocean[sonar] << "Miss"
-#   end
-#   damage_report
-#   p @viewscreen
-# end
-#
-# torpedo
-#
-#
-# # pop array, replace with 'hit!'
+def damage_report
+  # @counts =@ocean.each_with_object(Hash.new(0)) { |status, @counts| @counts{status}}
+  @counts = Hash.new 0
+  @ocean.each do |status|
+    @counts[status] +=1
+  end
+  if @counts[['Hit!']] >= 5
+    puts "You sunk my battleship!"
+  end
+end
+# allow player to call torpedos
+def torpedo
+  puts "Where do you want to attack?"
+  target = gets.chomp
+  p target
+  coord = target.split('')
+  p coord
+  sonar = @ocean.index(coord)
+  if @radar[sonar] == true
+    puts "Hit!"
+    @ocean[sonar].clear
+    @ocean[sonar] << "Hit!"
+  else
+    puts "Miss!"
+    @ocean[sonar].clear
+    @ocean[sonar] << "Miss"
+  end
+  damage_report
+  p @ocean.each_slice(10) { |x| puts  x.join(' ')}
+end
+
+torpedo
+
+
+# pop array, replace with 'hit!'
 # binding.pry
