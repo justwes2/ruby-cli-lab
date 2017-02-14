@@ -1,3 +1,4 @@
+#
 # require 'pry'
 # attr_accessor :radar, :ocean
 #Generates the board, called ocean
@@ -47,6 +48,7 @@ end
 #
 # #checks to see if all battleship elements have been hit
 def damage_report
+  @win = false
   # @counts =@ocean.each_with_object(Hash.new(0)) { |status, @counts| @counts{status}}
   @counts = Hash.new 0
   @ocean.each do |status|
@@ -54,6 +56,7 @@ def damage_report
   end
   if @counts[['Hit!']] >= 5
     puts "You sunk my battleship!"
+    @win = true
   end
 end
 # allow player to call torpedos
@@ -62,6 +65,15 @@ def torpedo
   target = gets.chomp
   p target
   coord = target.split('')
+   if coord.count(3)
+    #  coord = coord.splice(1,2)
+     new_coord = []
+     new_coord<<coord[1]
+     coord.shift
+     new_coord<<coord.join.to_s
+     coord = new_coord
+     #70-74 turns [b, 1, 0] to [b, 10] we hope
+   end
   p coord
   sonar = @ocean.index(coord)
   if @radar[sonar] == true
@@ -77,7 +89,9 @@ def torpedo
   p @ocean.each_slice(10) { |x| puts  x.join(' ')}
 end
 
-torpedo
+until @win == true
+  torpedo
+end
 
 
 # pop array, replace with 'hit!'
