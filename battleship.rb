@@ -16,7 +16,7 @@ end
 @ships = 0
 
 def add_ship
-  v_or_h=rand(2)
+  v_or_h=2
   @random = rand(100)
   # p @random
   if v_or_h == 1
@@ -31,6 +31,8 @@ def add_ship
     end
   else
     if @random + 50 <= 100
+      # puts @radar.inspect
+      pos = @random
       loop do
         @radar[pos] = true
         pos += 10
@@ -68,13 +70,14 @@ def torpedo
    if coord.count(3)
     #  coord = coord.splice(1,2)
      new_coord = []
-     new_coord<<coord[1]
+     new_coord<<coord[0]
      coord.shift
      new_coord<<coord.join.to_s
      coord = new_coord
      #70-74 turns [b, 1, 0] to [b, 10] we hope
    end
   p coord
+  #add check to make sure array is 2 long...
   sonar = @ocean.index(coord)
   if @radar[sonar] == true
     puts "Hit!"
